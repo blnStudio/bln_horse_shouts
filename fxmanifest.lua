@@ -4,7 +4,7 @@ rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aw
 
 author 'BLN Studio <bln.tebex.io>'
 description 'Enhance your horse riding experience with immersive voice lines! Your character will naturally react while riding, jumping, and interacting with their horse, just like in the original RDR2 story mode.'
-version '1.0.0'
+version '1.0.1'
 
 client_scripts {
     'c/*.lua'

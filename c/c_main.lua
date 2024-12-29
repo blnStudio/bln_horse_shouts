@@ -23,10 +23,6 @@ local EVENT_GROUPS = {
     UI = 3            -- SCRIPT_EVENT_QUEUE_UI
 }
 
-local function IsPedMale(ped)
-    return Citizen.InvokeNative(0x95B8E397B8F4360F, ped)
-end
-
 local function GetRandomVoiceLine(voiceType)
     local playerPed = PlayerPedId()
     local gender = IsPedMale(playerPed) and "male" or "female"
@@ -44,33 +40,6 @@ end
 
 local function CanSpeak()
     return timeSinceSpeech >= Config.MinTimeBetweenVoices
-end
-
-function PlayAmbientSpeechFromEntity(entity_id, sound_ref_string, sound_name_string, speech_params_string, speech_line)
-    local sound_name = Citizen.InvokeNative(0xFA925AC00EB830B9, 10, "LITERAL_STRING", sound_name_string, Citizen.ResultAsLong())
-    local sound_ref = Citizen.InvokeNative(0xFA925AC00EB830B9, 10, "LITERAL_STRING", sound_ref_string, Citizen.ResultAsLong())
-    local speech_params = GetHashKey(speech_params_string)
-    
-    local sound_name_BigInt = DataView.ArrayBuffer(16) 
-    sound_name_BigInt:SetInt64(0, sound_name)
-    
-    local sound_ref_BigInt = DataView.ArrayBuffer(16)
-    sound_ref_BigInt:SetInt64(0, sound_ref)
-    
-    local speech_params_BigInt = DataView.ArrayBuffer(16)
-    speech_params_BigInt:SetInt64(0, speech_params)
-    
-    local struct = DataView.ArrayBuffer(128)
-    struct:SetInt64(0, sound_name_BigInt:GetInt64(0))
-    struct:SetInt64(8, sound_ref_BigInt:GetInt64(0))
-    struct:SetInt32(16, speech_line)
-    struct:SetInt64(24, speech_params_BigInt:GetInt64(0)) 
-    struct:SetInt32(32, 0)
-    struct:SetInt32(40, 1) 
-    struct:SetInt32(48, 1) 
-    struct:SetInt32(56, 1)
-    
-    return Citizen.InvokeNative(0x8E04FEDD28D42462, entity_id, struct:Buffer())
 end
 
 -- Play voice line
